@@ -1,0 +1,1 @@
+BOARD_LENGTH = 3
