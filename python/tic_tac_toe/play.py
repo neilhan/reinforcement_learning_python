@@ -55,8 +55,8 @@ def get_state_hash_and_winner(env, i=0, j=0, board_width=BOARD_LENGTH, board_hei
 
     for v in (0, env.x, env.o):
         env.board[i, j] = v
-        if j >= board_width:
-            if i >= board_height:
+        if j >= (board_width - 1):
+            if i >= (board_height - 1):
                 state = env.get_state()
                 ended = env.is_game_over(force_recalc=True)
                 winner = env.winner

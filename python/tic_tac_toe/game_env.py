@@ -53,14 +53,14 @@ class Environment:  # state
         # any rows
         for i in range(BOARD_LENGTH):
             for player in (self.x, self.o):
-                if self.board[i].sum() == player*BOARD_LENGTH:
+                if self.board[i].sum() == player * BOARD_LENGTH:
                     self.winner = player
                     self.ended = True
                     return True
         # any columns
         for j in range(BOARD_LENGTH):
             for player in (self.x, self.o):
-                if self.board[:,j].sum() == player*BOARD_LENGTH:
+                if self.board[:, j].sum() == player * BOARD_LENGTH:
                     self.winner = player
                     self.ended = True
                     return True
@@ -68,20 +68,20 @@ class Environment:  # state
         # diagonals
         for player in (self.x, self.o):
             # top-left -> bottom-right diagonal
-            if self.board.trace() == player*LENGTH:
+            if self.board.trace() == player * BOARD_LENGTH:
                 self.winner = player
                 self.ended = True
                 return True
             # top-right -> bottom-left diagonal
-            if np.fliplr(self.board).trace() == player*LENGTH:
+            if np.fliplr(self.board).trace() == player * BOARD_LENGTH:
                 self.winner = player
                 self.ended = True
                 return True
 
         # is draw, all cells are not 0
-        if np.all((self.board==0) ==False):
+        if np.all((self.board == 0) == False):
             self.winner = None
-            self.ended=True
+            self.ended = True
             return True
 
         # not game over
