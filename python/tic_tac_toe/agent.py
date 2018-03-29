@@ -30,7 +30,6 @@ class Agent:  # state
         best_state = None
 
         possible_moves = env.get_empty_cells()
-        value_map = {}  # debugging info
 
         if r < self.eps:
             # act random, explore
@@ -40,6 +39,8 @@ class Agent:  # state
             idx = np.random.choice(len(possible_moves))
             next_move = possible_moves[idx]
         else:  # take the best known most rewarding action
+            value_map = {}  # debugging info
+
             next_move = None
             best_value = -1
             for i, j in possible_moves:
@@ -52,7 +53,8 @@ class Agent:  # state
                     best_state = state
                     next_move = (i, j)
 
-        self._show_decision_making(env, value_map)
+            self._show_decision_making(env, value_map)
+
         # make the move
         env.board[next_move[0], next_move[1]] = self.player
 
