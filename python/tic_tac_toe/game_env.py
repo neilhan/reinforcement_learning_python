@@ -87,3 +87,44 @@ class Environment:  # state
         # not game over
         self.winner = None
         return False
+
+    def is_empty_cell(self, i, j):
+        return self.board[i, j] == 0
+
+    def get_empty_cells(self):
+        empty_cells = []
+        for i in range(BOARD_LENGTH):
+            for j in range(BOARD_LENGTH):
+                if self.is_empty_cell(i, j):
+                    empty_cells.append((i, j))
+
+        return empty_cells
+
+    def get_reward(self, player):
+        if not self.is_game_over():
+            return 0
+
+        return 1 if player == self.winner else 0
+
+    def get_board_str(self):
+        result = ''
+        for i in range(BOARD_LENGTH):
+            result += '-------------' + '\n'
+            for j in range(BOARD_LENGTH):
+                result += '| '
+                if self.board[i, j] == self.x:
+                    result += 'x '
+                elif self.board[i, j] == self.o:
+                    result += 'o '
+                else:
+                    result += '  '
+
+            result += '|\n'
+
+        result += '-------------' + '\n'
+
+        return result
+
+    def draw_board(self):
+        board_str = self.get_board_str()
+        print(board_str)
