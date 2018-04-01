@@ -1,34 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from grid_world.grid import Grid
+from grid_world.utils import print_policy, print_values
 
 SMALL_ENOUGH = 0.0001  # consider converged
 
 
-def print_values(V, g: Grid):
-    for i in range(g.height):
-        print('------------------------')
-        for j in range(g.width):
-            v = V.get((i, j), 0)
-            if v >= 0:
-                print(' %.2f|' % v, end='')
-            else:
-                print('%.2f|' % v, end='')  # - sign
-        print("")
-    print('------------------------')
-
-
-def print_policy(P, g: Grid):
-    for i in range(g.height):
-        print('------------------------------------------')
-        for j in range(g.width):
-            a = P.get((i, j), ' ')
-            print('  %s  ' % a, end='')
-        print('')
-    print('------------------------')
-
-
-def find_uniform_random_action_value(grid: Grid):
+def find_value_for_uniform_random_action_policy(grid: Grid):
     states = grid.get_all_states()
 
     # init v(s) = 0
@@ -58,7 +36,7 @@ def find_uniform_random_action_value(grid: Grid):
     return V
 
 
-def find_value_for_fixed_policy(grid:Grid, policy):
+def find_value_for_fixed_policy(grid: Grid, policy):
     states = grid.get_all_states()
 
     # init v(s) = 0
@@ -79,7 +57,7 @@ def find_value_for_fixed_policy(grid:Grid, policy):
                 grid.set_state(s)
                 r = grid.move(a)
                 V[s] = r + gamma * V[grid.get_current_state()]
-                biggest_change = max(biggest_change, np.abs(old_v-V[s]))
+                biggest_change = max(biggest_change, np.abs(old_v - V[s]))
 
         if biggest_change < SMALL_ENOUGH:
             break
@@ -91,12 +69,11 @@ if __name__ == '__main__':
     grid = Grid.build_standard_grid()
 
     # policy: uniformly random actions -----------------------
-    V = find_uniform_random_action_value(grid)
+    V = find_value_for_uniform_random_action_policy(grid)
 
     print('values for uniformly random actions:')
     print_values(V, grid)
     print('\n\n')
-
 
     # given a Fixed-policy -----------------------
     policy = {
@@ -113,5 +90,7 @@ if __name__ == '__main__':
 
     V = find_value_for_fixed_policy(grid, policy)
 
+    print('giving policy:')
+    print_policy(policy, grid)
     print('values for fixed policy:')
     print_values(V, grid)

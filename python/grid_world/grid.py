@@ -120,3 +120,4 @@ class Grid:
             (2, 2): step_cost,
             (2, 3): step_cost,
         })
+        return g
