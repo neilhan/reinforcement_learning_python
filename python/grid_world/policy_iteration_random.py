@@ -67,8 +67,8 @@ def policy_improve(grid: Grid, V, policy):
 
 
 if __name__ == '__main__':
-    grid = Grid.build_standard_grid()
-    # grid = Grid.build_negative_grid()
+    # grid = Grid.build_standard_grid()
+    grid = Grid.build_negative_grid()
 
     # have a look at rewards
     print('rewards:')
