@@ -44,6 +44,8 @@ def policy_improve(grid: Grid, V, policy):
         best_value = float('-inf')
         # find best for this state
         for p_a in ALL_POSSIBLE_ACTIONS:
+            # this is Windy-Grid. for any action, the result is Random.
+            # 0.5 as expected, 0.5 chance to go to the rest 3 directions randomly.
             v = 0.0  # given an action, get the value for that action
             for a in ALL_POSSIBLE_ACTIONS:
                 if a == p_a:

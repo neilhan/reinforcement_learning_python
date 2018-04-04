@@ -28,6 +28,10 @@ class Grid:
     def is_terminal(self, s):
         return s not in self.action_map
 
+    def is_game_over(self):
+        s = self.get_current_state()
+        return self.is_terminal(s)
+
     def move(self, action: chr) -> float:
         """
         Return reward. The grid:
@@ -73,8 +77,8 @@ class Grid:
     def get_all_states(self):
         return set(list(self.reward_map.keys()) + list(self.action_map.keys()))
 
-    @staticmethod
-    def build_standard_grid():
+    @classmethod
+    def build_standard_grid(cls):
         """
         builder. x - means can't go to that cell. s - means start cell
         . . .  1
@@ -101,8 +105,8 @@ class Grid:
 
         return g
 
-    @staticmethod
-    def build_negative_grid(step_cost=-0.1):
+    @classmethod
+    def build_negative_grid(cls, step_cost=-0.1):
         """
         To discourage random moves, add a small cost to each move. Penalize every move.
         :param step_cost:
