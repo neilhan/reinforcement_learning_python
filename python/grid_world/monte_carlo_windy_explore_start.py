@@ -118,7 +118,7 @@ if __name__ == '__main__':
 
     # repeat game play, until convergence
     deltas = []  # for dev display
-    for t in range(30000):
+    for t in range(2000):
         if t % 100 == 0:
             print('game play:', str(t))
 
