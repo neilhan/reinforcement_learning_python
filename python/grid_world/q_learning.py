@@ -54,7 +54,7 @@ if __name__ == '__main__':
         for a in ALL_POSSIBLE_ACTIONS:
             Q[s][a] = 0.0
 
-    # how many times Q[s] has been updated
+    # tracking how many times Q[s] has been updated
     update_counts = {}
     update_counts_sa = {}
     for s in states:
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     # repeat game play, until convergence
     t = 1.0
     deltas = []
-    for itr in range(20000):
+    for itr in range(30000):
         if itr % 100 == 0:
             t += 0.01
         if itr % 2000 == 0:
@@ -77,10 +77,10 @@ if __name__ == '__main__':
 
         # starting state to be ignored.
         # last (s,r) is terminal state,  don't care
-        a = max_dict(Q[s])[0]
-        a = apply_epsilon_to_action(a, eps=0.5 / t)
+        a = max_dict(Q[s])[0]  # not used
         biggest_change = 0
         while not grid.is_game_over():
+            a = apply_epsilon_to_action(a, eps=0.5/t)  # epsilon-greedy
             r = grid.move(a)
             s2 = grid.get_current_state()
 
@@ -90,7 +90,9 @@ if __name__ == '__main__':
             alpha = ALPHA / update_counts_sa[s][a]
             update_counts_sa[s][a] += 0.005
             old_qsa = Q[s][a]
-            Q[s][a] = old_qsa + alpha * (r + GAMMA * Q[s2][a2] - old_qsa)
+
+            a2, max_q_s2a2 = max_dict(Q[s2])  # next move, best move, but will be epsilon-greedy, so still learning
+            Q[s][a] = old_qsa + alpha * (r + GAMMA * max_q_s2a2 - old_qsa)
             biggest_change = max(biggest_change, np.abs(old_qsa - Q[s][a]))
 
             update_counts[s] = update_counts.get(s, 0) + 1
