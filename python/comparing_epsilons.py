@@ -1,8 +1,11 @@
+'''
+Tic tac toe - doc here
+'''
 from __future__ import print_function, absolute_import, division
-xrange = range
-
 import numpy as np
 import matplotlib.pyplot as plt
+
+xrange = range
 
 
 class Bandit:
