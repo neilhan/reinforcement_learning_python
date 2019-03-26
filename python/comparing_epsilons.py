@@ -1,4 +1,5 @@
 from __future__ import print_function, absolute_import, division
+xrange = range
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -52,13 +53,13 @@ def run_experiment(m1, m2, m3, eps, N):
     plt.xscale('log')
     plt.show()
 
-    for i, b in enumerate(bandits):
-        print(i, b.mean)
+    for i, bdt in enumerate(bandits):
+        print(i, bdt.mean)
 
     return cumulative_average
 
 
-if __name__ == '__main__':
+def main():
     c_1 = run_experiment(1.0, 2.0, 3.0, 0.1, 100000)
     c_05 = run_experiment(1.0, 2.0, 3.0, 0.05, 100000)
     c_01 = run_experiment(1.0, 2.0, 3.0, 0.01, 100000)
@@ -77,3 +78,7 @@ if __name__ == '__main__':
     plt.plot(c_01, label='eps=0.01')
     plt.legend()
     plt.show()
+
+
+if __name__ == '__main__':
+    main()

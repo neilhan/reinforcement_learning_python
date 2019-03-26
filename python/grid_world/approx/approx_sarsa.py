@@ -134,7 +134,7 @@ if __name__ == '__main__':
 
         if itr % 10 == 0:
             t += 0.001
-            t2 += 0.008 
+            t2 += 0.008
 
         alpha = ALPHA / t2
 
