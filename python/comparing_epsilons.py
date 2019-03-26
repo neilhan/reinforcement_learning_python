@@ -1,5 +1,5 @@
 '''
-Tic tac toe - doc here
+Bandit - doc here
 '''
 from __future__ import print_function, absolute_import, division
 import numpy as np
