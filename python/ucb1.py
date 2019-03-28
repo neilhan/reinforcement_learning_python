@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from comparing_epsilons import run_experiment as run_experiment_eps
 from optimistic_epsilons import run_experiment as run_experiment_opt
 
+xrange = range
+
 
 class Bandit:
     def __init__(self, m):
@@ -61,8 +63,7 @@ def run_experiment(m1, m2, m3, N):
 
     return cumulative_average
 
-
-if __name__ == '__main__':
+def main():
     c_1 = run_experiment_eps(1.0, 2.0, 3.0, 0.1, 100000)
     oiv = run_experiment_opt(1.0, 2.0, 3.0, 100000)
     ucb = run_experiment(1.0, 2.0, 3.0, 100000)
@@ -74,3 +75,7 @@ if __name__ == '__main__':
     plt.legend()
     plt.xscale('log')
     plt.show()
+
+
+if __name__ == '__main__':
+    main()
