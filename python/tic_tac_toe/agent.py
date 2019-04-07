@@ -1,7 +1,7 @@
 from __future__ import print_function, absolute_import, division
 
 import numpy as np
-from tic_tac_toe import *
+from tic_tac_toe import BOARD_LENGTH
 from tic_tac_toe.game_env import Environment
 
 
@@ -27,7 +27,6 @@ class Agent:  # state
     def take_action(self, env):
         # epsilon-greedy strategy, take random action if random value < epsilon
         r = np.random.rand()
-        best_state = None
 
         possible_moves = env.get_empty_cells()
 
@@ -50,10 +49,9 @@ class Agent:  # state
                 value_map[(i, j)] = self.V[state]
                 if self.V[state] > best_value:
                     best_value = self.V[state]
-                    best_state = state
                     next_move = (i, j)
 
-            self._show_decision_making(env, value_map)
+        self._show_decision_making(env, value_map)
 
         # make the move
         env.board[next_move[0], next_move[1]] = self.player

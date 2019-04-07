@@ -2,7 +2,7 @@ from __future__ import print_function, absolute_import, division
 
 import numpy as np
 import matplotlib.pyplot as plt
-from tic_tac_toe import *
+from tic_tac_toe import BOARD_LENGTH
 
 
 class Environment:  # state
@@ -40,6 +40,13 @@ class Environment:  # state
                 k += 1
         return h
 
+    def _player_win(self, player) -> None:
+        """
+        :param player self.x or self.o
+        """
+        self.winner = player
+        self.ended = True
+
     def is_game_over(self, force_recalc=False):
         """
         return True if game over, player won or draw.
@@ -54,34 +61,29 @@ class Environment:  # state
         for i in range(BOARD_LENGTH):
             for player in (self.x, self.o):
                 if self.board[i].sum() == player * BOARD_LENGTH:
-                    self.winner = player
-                    self.ended = True
+                    self._player_win(player)
                     return True
         # any columns
         for j in range(BOARD_LENGTH):
             for player in (self.x, self.o):
                 if self.board[:, j].sum() == player * BOARD_LENGTH:
-                    self.winner = player
-                    self.ended = True
+                    self._player_win(player)
                     return True
 
         # diagonals
         for player in (self.x, self.o):
             # top-left -> bottom-right diagonal
             if self.board.trace() == player * BOARD_LENGTH:
-                self.winner = player
-                self.ended = True
+                self._player_win(player)
                 return True
             # top-right -> bottom-left diagonal
             if np.fliplr(self.board).trace() == player * BOARD_LENGTH:
                 self.winner = player
-                self.ended = True
                 return True
 
         # is draw, all cells are not 0
         if np.all((self.board == 0) == False):
-            self.winner = None
-            self.ended = True
+            self._player_win(None)
             return True
 
         # not game over

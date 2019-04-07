@@ -1,8 +1,8 @@
-from __future__ import print_function, absolute_import, division
+#! python3
 
 import numpy as np
 import matplotlib.pyplot as plt
-from tic_tac_toe import *
+from tic_tac_toe import BOARD_LENGTH
 from tic_tac_toe.game_env import Environment
 from tic_tac_toe.agent import Agent
 from tic_tac_toe.human import Human
@@ -43,12 +43,13 @@ def play_game(p1, p2, env: Environment, draw=False) -> None:
     p2.update_V_after_episode(env)
 
 
-def get_state_hash_and_winner(env, i=0, j=0, board_width=BOARD_LENGTH, board_height=BOARD_LENGTH):
+def get_state_hash_and_winner(
+        env, i=0, j=0, board_width=BOARD_LENGTH, board_height=BOARD_LENGTH):
     """
     Return all states(as ints) and who is winner for those states if any.
     (i,j) refers to the next cell on the board to permute(need to try -1,0,1)
-    impossible games are ignored. ie 3x and 3o in a row in one game, since that will never happen
-    in real game.
+    impossible games are ignored. ie 3x and 3o in a row in one game,
+    since that will never happen in real game.
     :param env: the env
     :param i: loop i start with
     :param j: loop j start with
@@ -65,8 +66,8 @@ def get_state_hash_and_winner(env, i=0, j=0, board_width=BOARD_LENGTH, board_hei
                 winner = env.winner
                 # only append to result when all 9 cells are filled
                 results.append((state, winner, ended))
-            else:
-                results += get_state_hash_and_winner(env, i + 1, 0)  # reset j, go to next row
+            else:  # reset j, go to next row
+                results += get_state_hash_and_winner(env, i + 1, 0)
         else:
             results += get_state_hash_and_winner(env, i, j + 1)
 
@@ -122,7 +123,7 @@ def main():
     T = 10000
     for t in range(T):
         if t % 200 == 0:
-            print(t)
+            print('Played game:', t)
         play_game(player_x, player_o, Environment())
 
     # human vs ai
