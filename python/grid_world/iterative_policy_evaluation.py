@@ -37,6 +37,9 @@ def find_value_for_uniform_random_action_policy(grid: Grid):
 
 
 def find_value_for_fixed_policy(grid: Grid, policy):
+    '''
+    policy: {(x,y): U/D/L/R, ...}
+    '''
     states = grid.get_all_states()
 
     # init v(s) = 0
@@ -64,18 +67,19 @@ def find_value_for_fixed_policy(grid: Grid, policy):
 
     return V
 
-
-if __name__ == '__main__':
+def main():
     grid = Grid.build_standard_grid()
 
-    # policy: uniformly random actions -----------------------
+    # policy: uniformly random actions
+    # ----------------------------------------------
     V = find_value_for_uniform_random_action_policy(grid)
 
     print('values for uniformly random actions:')
     print_values(V, grid)
     print('\n\n')
 
-    # given a Fixed-policy -----------------------
+    # given a Fixed-policy
+    # ----------------------------------------------
     policy = {
         (2, 0): 'U',
         (1, 0): 'U',
@@ -94,3 +98,6 @@ if __name__ == '__main__':
     print_policy(policy, grid)
     print('values for fixed policy:')
     print_values(V, grid)
+
+if __name__ == '__main__':
+    main()
