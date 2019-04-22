@@ -1,9 +1,9 @@
+'''
+Bandit - doc here
+'''
 from __future__ import print_function, absolute_import, division
-
 import numpy as np
 import matplotlib.pyplot as plt
-from comparing_epsilons import run_experiment as run_experiment_eps
-from optimistic_epsilons import run_experiment as run_experiment_opt
 
 xrange = range
 
@@ -25,22 +25,20 @@ class Bandit:
         self.mean = (1 - 1.0 / self.N) * self.mean + 1.0 / self.N * x
 
 
-def ucb(mean, n, nj):
-    if nj == 0:
-        return float('inf')
-    return mean + np.sqrt(2 * np.log(n) / nj)
-    #             ^^^^^^^ --  UCB upper confidence bound
-
-
-def run_experiment(m1, m2, m3, N):
-    # create bandit
+def run_experiment(m1, m2, m3, eps, N):
     bandits = [Bandit(m1), Bandit(m2), Bandit(m3)]
 
     data = np.empty(N)
 
     for i in xrange(N):
-        # b.mean + Upper Confidence Bound
-        j = np.argmax([ucb(b.mean, i + 1, b.N) for b in bandits])
+        # epsilon greedy
+        p = np.random.random()
+
+        # can do decaying_epsilon: if p < 1.0/(i+1):
+        if p < eps:
+            j = np.random.choice(3)
+        else:
+            j = np.argmax([b.mean for b in bandits])
 
         x = bandits[j].pull()
         bandits[j].update(x)
@@ -58,22 +56,33 @@ def run_experiment(m1, m2, m3, N):
     plt.xscale('log')
     plt.show()
 
-    for i, b in enumerate(bandits):
-        print(i, b.mean)
+    for i, bdt in enumerate(bandits):
+        print(i, bdt.mean)
 
     return cumulative_average
 
+
 def main():
-    c_1 = run_experiment_eps(1.0, 2.0, 3.0, 0.1, 100000)
-    oiv = run_experiment_opt(1.0, 2.0, 3.0, 100000)
-    ucb = run_experiment(1.0, 2.0, 3.0, 100000)
+    # fixed epsilon 0.1
+    c_1 = run_experiment(1.0, 2.0, 3.0, 0.1, 100000)
+    # fixed epsilon 0.05
+    c_05 = run_experiment(1.0, 2.0, 3.0, 0.05, 100000)
+    # fixed epsilon 0.01
+    c_01 = run_experiment(1.0, 2.0, 3.0, 0.01, 100000)
 
     # log scale plot
     plt.plot(c_1, label='eps=0.1')
-    plt.plot(oiv, label='optimistic')
-    plt.plot(ucb, label='ucb')
+    plt.plot(c_05, label='eps=0.05')
+    plt.plot(c_01, label='eps=0.01')
     plt.legend()
     plt.xscale('log')
+    plt.show()
+
+    # linear plot
+    plt.plot(c_1, label='eps=0.1')
+    plt.plot(c_05, label='eps=0.05')
+    plt.plot(c_01, label='eps=0.01')
+    plt.legend()
     plt.show()
 
 

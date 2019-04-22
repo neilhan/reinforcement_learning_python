@@ -29,8 +29,8 @@ def apply_wind_to_action(a):
 def play_game(grid: Grid, policy):
     """
     returns (states, corresponding returns)
-    Needs reset game start at a random position, since policy is deterministic,
-    we would not able to measure all states
+    Needs reset game start at a random position, since policy is deterministic.
+    If starting from the starting spot, we would not able to measure all states.
     :param grid:
     :param policy:
     :return: (states, corresponding returns)

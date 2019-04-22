@@ -2,18 +2,20 @@ from __future__ import print_function, absolute_import, division
 
 import numpy as np
 import matplotlib.pyplot as plt
-from comparing_epsilons import run_experiment as run_experiment_eps
+from bandit.comparing_epsilons import run_experiment as run_experiment_eps
+from bandit.optimistic_epsilons import run_experiment as run_experiment_opt
 
 xrange = range
 
+
 class Bandit:
-    def __init__(self, m, opt_mean):
+    def __init__(self, m):
         """
         :param m:  mean of the Bandit
         """
         self.m = m
-        self.mean = opt_mean
-        self.N = 1
+        self.mean = 0
+        self.N = 0
 
     def pull(self):
         return np.random.randn() + self.m
@@ -23,17 +25,22 @@ class Bandit:
         self.mean = (1 - 1.0 / self.N) * self.mean + 1.0 / self.N * x
 
 
-def run_experiment(m1, m2, m3, N, upper_mean=10.0):
-    # set upper optimistic_mean and the mean
-    bandits = [Bandit(m1, upper_mean),
-               Bandit(m2, upper_mean),
-               Bandit(m3, upper_mean)]
+def ucb(mean, n, nj):
+    if nj == 0:
+        return float('inf')
+    return mean + np.sqrt(2 * np.log(n) / nj)
+    #             ^^^^^^^ --  UCB upper confidence bound
+
+
+def run_experiment(m1, m2, m3, N):
+    # create bandit
+    bandits = [Bandit(m1), Bandit(m2), Bandit(m3)]
 
     data = np.empty(N)
 
     for i in xrange(N):
-        # optimistic initial values has been set
-        j = np.argmax([b.mean for b in bandits])
+        # b.mean + Upper Confidence Bound
+        j = np.argmax([ucb(b.mean, i + 1, b.N) for b in bandits])
 
         x = bandits[j].pull()
         bandits[j].update(x)
@@ -56,14 +63,15 @@ def run_experiment(m1, m2, m3, N, upper_mean=10.0):
 
     return cumulative_average
 
-
 def main():
     c_1 = run_experiment_eps(1.0, 2.0, 3.0, 0.1, 100000)
-    oiv = run_experiment(1.0, 2.0, 3.0, 100000)
+    oiv = run_experiment_opt(1.0, 2.0, 3.0, 100000)
+    ucb = run_experiment(1.0, 2.0, 3.0, 100000)
 
     # log scale plot
     plt.plot(c_1, label='eps=0.1')
     plt.plot(oiv, label='optimistic')
+    plt.plot(ucb, label='ucb')
     plt.legend()
     plt.xscale('log')
     plt.show()

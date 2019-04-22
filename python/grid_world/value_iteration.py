@@ -17,7 +17,7 @@ if __name__ == '__main__':
     print('rewards:')
     print_values(grid.reward_map, grid)
 
-    # init policy ---------------------
+    # init policy, random action ---------------------
     policy = {}
     for s in grid.action_map.keys():
         policy[s] = np.random.choice(ALL_POSSIBLE_ACTIONS)

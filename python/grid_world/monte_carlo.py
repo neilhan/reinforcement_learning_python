@@ -46,7 +46,7 @@ def play_game(grid: Grid, policy):
     return states_returns
 
 
-if __name__ == '__main__':
+def main():
     # grid = Grid.build_standard_grid()
     grid = Grid.build_negative_grid()
 
@@ -54,8 +54,8 @@ if __name__ == '__main__':
     print('rewards:')
     print_values(grid.reward_map, grid)
 
-    # init policy ---------------------
-    # given a Fixed-policy -----------------------
+    # init policy -----------------------
+    # given a Fixed-policy
     policy = {
         (2, 0): 'U',
         (1, 0): 'U',
@@ -82,7 +82,7 @@ if __name__ == '__main__':
         else:
             V[s] = 0.0
 
-    # repeat game play
+    # repeat game play -----------------------
     for t in range(100):
         states_returns = play_game(grid, policy)
         seen_states = set()
@@ -98,3 +98,7 @@ if __name__ == '__main__':
     print_policy(policy, grid)
     print('found value:')
     print_values(V, grid)
+
+
+if __name__ == '__main__':
+    main()

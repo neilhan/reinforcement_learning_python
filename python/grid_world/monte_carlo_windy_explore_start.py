@@ -45,6 +45,7 @@ def play_game(grid: Grid, policy):
     :param policy:
     :return: (states, corresponding returns)
     """
+    # random starting point. each game play is an exploration.
     start_states = list(grid.action_map.keys())
     start_idx = np.random.choice(len(start_states))
     grid.set_state(start_states[start_idx])
@@ -87,7 +88,7 @@ def play_game(grid: Grid, policy):
     return states_actions_returns
 
 
-if __name__ == '__main__':
+def main():
     # grid = Grid.build_standard_grid()
     grid = Grid.build_negative_grid()
 
@@ -96,7 +97,7 @@ if __name__ == '__main__':
     print_values(grid.reward_map, grid)
 
     # init policy ---------------------
-    # given a Fixed-policy -----------------------
+    # given a Fixed-policy
     policy = {}
     for s in list(grid.action_map.keys()):
         policy[s] = np.random.choice(ALL_POSSIBLE_ACTIONS)
@@ -142,6 +143,7 @@ if __name__ == '__main__':
     plt.plot(deltas)
     plt.show()
 
+    # just for printing, we have Q action-value function
     V = {}
     for s, Qs in Q.items():
         V[s] = max_dict(Q[s])[1]
@@ -151,3 +153,6 @@ if __name__ == '__main__':
     print_policy(policy, grid)
     print('found value:')
     print_values(V, grid)
+
+if __name__ == '__main__':
+    main()

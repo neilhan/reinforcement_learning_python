@@ -28,7 +28,7 @@ def apply_wind_to_action(a):
 
 def apply_epsilon_to_action(a, eps=0.1):
     """
-    given 'a' with probability: 1-eps+ eps/4
+    given 'a' with probability: 1-eps + eps/4
     For the rest 3 actions, with eps/4 for each action
     :param a:
     :param eps:
@@ -41,6 +41,7 @@ def apply_epsilon_to_action(a, eps=0.1):
         return np.random.choice(ALL_POSSIBLE_ACTIONS)
 
 
+# used for Policy, Q update
 def max_dict(d):
     max_key = None
     max_val = float('-inf')
@@ -60,7 +61,8 @@ def play_game(grid: Grid, policy):
     :param policy:
     :return: (states, corresponding returns)
     """
-    s = (2, 0)  # start from the starting cell
+    # start from the starting cell. This is different from the exploration first solution.
+    s = (2, 0)
     grid.set_state(s)
     a = policy[s]
     a = apply_epsilon_to_action(a)
@@ -94,7 +96,7 @@ def play_game(grid: Grid, policy):
     return states_actions_returns
 
 
-if __name__ == '__main__':
+def main():
     # grid = Grid.build_standard_grid()
     grid = Grid.build_negative_grid()
 
@@ -103,7 +105,7 @@ if __name__ == '__main__':
     print_values(grid.reward_map, grid)
 
     # init policy ---------------------
-    # given a Fixed-policy -----------------------
+    # given a Fixed-policy
     policy = {}
     for s in list(grid.action_map.keys()):
         policy[s] = np.random.choice(ALL_POSSIBLE_ACTIONS)
@@ -149,6 +151,7 @@ if __name__ == '__main__':
     plt.plot(deltas)
     plt.show()
 
+    # max Q => V, so that V can be printed
     V = {}
     for s, Qs in Q.items():
         V[s] = max_dict(Q[s])[1]
@@ -158,3 +161,6 @@ if __name__ == '__main__':
     print_policy(policy, grid)
     print('found value:')
     print_values(V, grid)
+
+if __name__ == '__main__':
+    main()
