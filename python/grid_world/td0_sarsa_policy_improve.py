@@ -36,7 +36,7 @@ def max_dict(d):
     return max_key, max_val
 
 
-if __name__ == '__main__':
+def main():
     # grid = Grid.build_standard_grid()
     grid = Grid.build_negative_grid()
 
@@ -116,3 +116,6 @@ if __name__ == '__main__':
     print_policy(policy, grid)
     print('found value:')
     print_values(V, grid)
+
+if __name__ == '__main__':
+    main()

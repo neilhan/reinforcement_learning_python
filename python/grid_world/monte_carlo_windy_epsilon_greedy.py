@@ -61,7 +61,8 @@ def play_game(grid: Grid, policy):
     :param policy:
     :return: (states, corresponding returns)
     """
-    # start from the starting cell. This is different from the exploration first solution.
+    # start from the starting cell.
+    # This is different from the exploration first solution.
     s = (2, 0)
     grid.set_state(s)
     a = policy[s]

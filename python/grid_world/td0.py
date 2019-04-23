@@ -78,7 +78,7 @@ def play_game(grid: Grid, policy):
     return states_actions_rewards
 
 
-if __name__ == '__main__':
+def main():
     # grid = Grid.build_standard_grid()
     grid = Grid.build_negative_grid()
 
@@ -90,8 +90,7 @@ if __name__ == '__main__':
     # policy = {}
     # for s in list(grid.action_map.keys()):
     #     policy[s] = np.random.choice(ALL_POSSIBLE_ACTIONS)
-
-    # given a Fixed-policy -----------------------
+    # or # start with a Fixed-policy
     policy = {
         (2, 0): 'U',
         (1, 0): 'U',
@@ -117,7 +116,8 @@ if __name__ == '__main__':
     for play in range(1000):
 
         states_rewards = play_game(grid, policy)
-        # starting state to be ignored.
+        # This is TD0 updating state-value function.
+        # starting state to be ignored. (len() - 1)
         # last (s,r) is terminal state,  don't care
         for t in range(len(states_rewards) -1):
             s, _ = states_rewards[t]
@@ -130,3 +130,6 @@ if __name__ == '__main__':
     print_policy(policy, grid)
     print('found value:')
     print_values(V, grid)
+
+if __name__ == '__main__':
+    main()

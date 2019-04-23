@@ -36,7 +36,7 @@ def max_dict(d):
     return max_key, max_val
 
 
-if __name__ == '__main__':
+def main():
     # grid = Grid.build_standard_grid()
     grid = Grid.build_negative_grid()
 
@@ -80,7 +80,8 @@ if __name__ == '__main__':
         a = max_dict(Q[s])[0]  # not used
         biggest_change = 0
         while not grid.is_game_over():
-            a = apply_epsilon_to_action(a, eps=0.5/t)  # epsilon-greedy
+            # epsilon-greedy, can be random: a = random action at s
+            a = apply_epsilon_to_action(a, eps=0.5/t)
             r = grid.move(a)
             s2 = grid.get_current_state()
 
@@ -118,3 +119,6 @@ if __name__ == '__main__':
     print_policy(policy, grid)
     print('found value:')
     print_values(V, grid)
+
+if __name__ == '__main__':
+    main()

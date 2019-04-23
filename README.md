@@ -44,3 +44,6 @@ PYTHONPATH=./python python3 -m grid_world.iterative_policy_evaluation
   - monte_carlo_windy_explore_start.py - Explore the world with MC.
   - monte_carlo_windy_epsilon_greedy.py - without exploration, play game from the start.
     Policy eval / improvement loop. With epsilon exploration, greedy Q(s,a) policy update.
+  - td0.py - TD(0) method. online, no episode required
+  - td0_sarsa_policy_improve.py - td0 sarsa method
+  - q_learning.py - q_learning, action can be off policy, can still learn with max_a_Q(s,a)
